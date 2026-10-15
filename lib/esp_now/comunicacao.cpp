@@ -4,6 +4,7 @@
 #include "define.h"
 #include "comunicacao.h"
 #include "motor.h"
+#include <esp_wifi.h>
 
 static const uint8_t macControle[] = {0x70, 0x4B, 0xCA, 0x91, 0x96, 0x3C};
 static PacketDadosRecebidos dadosEntrada;
@@ -42,6 +43,8 @@ static void aoReceberDados(const uint8_t *mac, const uint8_t *incomingData, int 
 
 void inicializarESPNow() {
   WiFi.mode(WIFI_STA);
+  esp_wifi_set_channel(1, WIFI_SECOND_CHAN_NONE); //Configura o canal do WiFi para 1
+  
   Serial.print("MAC STA do robo: ");
   Serial.println(WiFi.macAddress());
 
