@@ -74,7 +74,7 @@ void atualizarRampaMotores() {
 
   // Envia as velocidades calculadas para a ponte H
   aplicarSaidaMotor(MOTOR_ESQ_PIN1, MOTOR_ESQ_PIN2, CANAL_PWM_ESQ, atualEsq);
-  aplicarSaidaMotor(MOTOR_DIR_PIN1, MOTOR_DIR_PIN2, CANAL_PWM_DIR, atualDir);
+  aplicarSaidaMotor(MOTOR_DIR_PIN1, MOTOR_DIR_PIN2, CANAL_PWM_DIR, -atualDir);
 }
 
 void pararMotoresImediatamente() {
