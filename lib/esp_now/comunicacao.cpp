@@ -9,26 +9,39 @@
 static const uint8_t macControle[] = {0x70, 0x4B, 0xCA, 0x91, 0x96, 0x3C};
 static PacketDadosRecebidos dadosEntrada;
 static unsigned long ultimaRecepcaoTempo = 0;
+static unsigned long ultimaImpressaoJoystick = 0;
 static bool modoProporcional = false;
 static bool ultimoEstadoBotao = false;
 
 static void processarComandos(uint8_t x, uint8_t y) {
-  float normY = map(y, 254, 0, -1000, 1000) / 1000.0;
-  float normX = map(x, 0, 254, -1000, 1000) / 1000.0;
+  int throttle = 0;
+  int steering = 0;
 
-  float suaveY = (normY < 0 ? -1 : 1) * (normY * normY);
-  float suaveX = (normX < 0 ? -1 : 1) * (normX * normX);
+  const bool zonaMorta = (x >= 125 && x <= 128) && (y <= 15);
 
-  int throttle = suaveY * MOTOR_MAX_SPEED_LIMIT;
-  int steering = suaveX * MOTOR_MAX_SPEED_LIMIT;
-
-  if (abs(throttle) < 15) throttle = 0;
-  if (abs(steering) < 15) steering = 0;
+  if (!zonaMorta) {
+    if (x >= 230 && y <= 20) {
+      throttle = MOTOR_MAX_SPEED_LIMIT; //frente
+    } else if (x <= 20 && y <= 20) {
+      throttle = -MOTOR_MAX_SPEED_LIMIT; //trás
+  //} else if (x <= 140 && x >= 115 && y<= 20) {     
+  //  steering = MOTOR_MAX_SPEED_LIMIT; //direita
+  //} else if (x >= 120 && x <= 130 && y <= 20) {      
+   // steering = -MOTOR_MAX_SPEED_LIMIT; //esquerda
+  //}
+  }
 
   int velEsq = throttle + steering;
   int velDir = throttle - steering;
 
   definirVelocidadeAlvo(velEsq, velDir);
+
+   if (millis() - ultimaImpressaoJoystick >= 250) {
+    ultimaImpressaoJoystick = millis();
+    Serial.printf("Joystick RX: x=%u y=%u | throttle=%d steering=%d | motores E=%d D=%d\n",
+                  static_cast<unsigned>(x), static_cast<unsigned>(y),
+                  throttle, steering, velEsq, velDir);
+  }
 }
 
 static void aoReceberDados(const uint8_t *mac, const uint8_t *incomingData, int len) {
