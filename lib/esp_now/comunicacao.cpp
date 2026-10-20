@@ -17,18 +17,18 @@ static void processarComandos(uint8_t x, uint8_t y) {
   int throttle = 0;
   int steering = 0;
 
-  const bool zonaMorta = (x >= 125 && x <= 128) && (y <= 15);
+  const bool zonaMorta = (x == 127 && y == 127);
 
   if (!zonaMorta) {
-    if (x >= 230 && y <= 20) {
+    if (x <=254 && x >= 200 && y >= 120 && y <= 140) {
       throttle = MOTOR_MAX_SPEED_LIMIT; //frente
-    } else if (x <= 20 && y <= 20) {
+    } else if (x <= 20 && y <= 140 && y >= 120) {
       throttle = -MOTOR_MAX_SPEED_LIMIT; //trás
-  //} else if (x <= 140 && x >= 115 && y<= 20) {     
-  //  steering = MOTOR_MAX_SPEED_LIMIT; //direita
-  //} else if (x >= 120 && x <= 130 && y <= 20) {      
-   // steering = -MOTOR_MAX_SPEED_LIMIT; //esquerda
-  //}
+    } else if (x <= 140 && x >= 120 && y <= 254 && y >= 200) {
+      steering = MOTOR_MAX_SPEED_LIMIT; //direita
+    } else if (x >= 115 && x <= 140 && y <= 20) { 
+      steering = -MOTOR_MAX_SPEED_LIMIT; //esquerda
+    } 
   }
 
   int velEsq = throttle + steering;
