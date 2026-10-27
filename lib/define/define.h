@@ -23,8 +23,8 @@ const int PWM_RES  = 8; // 0 a 255
 #define MOTOR_RAMP_INTERVAL_MS  15   // Intervalo de tempo (ms) entre cada passo da rampa
 
 // Pinos e configurações do sensor ultrassônico
-#define TRIGGER_PIN             5   // Pino Trig do HC-SR04
-#define ECHO_PIN                15  // Pino Echo do HC-SR04
+#define TRIGGER_PIN             32   // Pino Trig do HC-SR04
+#define ECHO_PIN                35  // Pino Echo do HC-SR04
 #define INTERVALO_LEITURA_SENSOR 100 
 
 // Comunicação ESP-NOW
