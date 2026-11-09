@@ -30,6 +30,8 @@ int lerDistanciaCM() {
   int distancia = duracao / 58;
 
   return distancia;
+
+  Serial.printf("Distância medida: %d cm\n", distancia);
 }
 
 void atualizarLeituraSensor() {
@@ -43,4 +45,5 @@ void atualizarLeituraSensor() {
 
 int obterUltimaDistancia() {
   return ultimaDistanciaCM;
+
 }
