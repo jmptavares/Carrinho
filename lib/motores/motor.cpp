@@ -46,7 +46,6 @@ static void aplicarSaidaMotor(int pin1, int pin2, int canalPWM, int velocidade) 
 }
 
 void definirVelocidadeAlvo(int velEsq, int velDir) {
-  // Limites de segurança
   alvoEsq = constrain(velEsq, -MOTOR_MAX_SPEED_LIMIT, MOTOR_MAX_SPEED_LIMIT);
   alvoDir = constrain(velDir, -MOTOR_MAX_SPEED_LIMIT, MOTOR_MAX_SPEED_LIMIT);
 }
@@ -55,7 +54,7 @@ void atualizarRampaMotores() {
   unsigned long agora = millis();
   
   if (agora - ultimaAtualizacaoRampa < MOTOR_RAMP_INTERVAL_MS) {
-    return; // Aguarda o intervalo da rampa
+    return; 
   }
   ultimaAtualizacaoRampa = agora;
 
@@ -72,7 +71,7 @@ void atualizarRampaMotores() {
     atualDir = max(atualDir - MOTOR_RAMP_STEP, alvoDir);
   }
 
-  // Envia as velocidades calculadas para a ponte H
+  
   aplicarSaidaMotor(MOTOR_ESQ_PIN1, MOTOR_ESQ_PIN2, CANAL_PWM_ESQ, atualEsq);
   aplicarSaidaMotor(MOTOR_DIR_PIN1, MOTOR_DIR_PIN2, CANAL_PWM_DIR, -atualDir);
 }

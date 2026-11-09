@@ -5,8 +5,8 @@
 #include "define.h"
 
 void inicializarSensor();
-int lerDistanciaCM();       // Leitura pontual (em centímetros)
-void atualizarLeituraSensor(); // Leitura periódica sem travar o código principal
-int obterUltimaDistancia(); // Retorna o último valor lido em cm
+int lerDistanciaCM();       
+void atualizarLeituraSensor(); 
+int obterUltimaDistancia(); 
 
 #endif

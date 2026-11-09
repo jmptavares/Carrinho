@@ -1,9 +1,9 @@
 #include <WiFi.h>
 #include <Arduino.h>
-#include "define.h"      // Ou "config.h", dependendo do nome que usou
-#include "motor.h"       // Interface dos motores
-#include "sensor.h"      // Interface do ultrassônico
-#include "comunicacao.h"  // Interface da comunicação ESP-NOW
+#include "define.h"      
+#include "motor.h"       
+#include "sensor.h"      
+#include "comunicacao.h"  
 
 void setup() {
   Serial.begin(115200);
