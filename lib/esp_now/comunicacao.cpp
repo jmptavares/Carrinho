@@ -6,7 +6,7 @@
 #include "motor.h"
 #include <esp_wifi.h>
 
-static const uint8_t macControle[] = {0x70, 0x4B, 0xCA, 0x91, 0x96, 0x3C};
+static const uint8_t macControle[] = {0xF4, 0x65, 0x0B, 0x56, 0x6E, 0xC0}; //F4:65:0B:56:6E:C0
 static PacketDadosRecebidos dadosEntrada;
 static unsigned long ultimaRecepcaoTempo = 0;
 static unsigned long ultimaImpressaoJoystick = 0;
