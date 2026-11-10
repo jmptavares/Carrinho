@@ -31,8 +31,8 @@ static void processarComandos(uint8_t x, uint8_t y) {
     } 
   }
 
-  int velEsq = throttle + steering;
-  int velDir = throttle - steering;
+  int velEsq = 2 * throttle - steering;
+  int velDir = 2 * throttle + steering;
 
   definirVelocidadeAlvo(velEsq, velDir);
 
