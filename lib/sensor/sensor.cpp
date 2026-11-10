@@ -38,11 +38,11 @@ void atualizarLeituraSensor() {
   if (agora - ultimaLeituraTempo >= INTERVALO_LEITURA_SENSOR) {
     ultimaLeituraTempo = agora;
     ultimaDistanciaCM = lerDistanciaCM();
+    Serial.printf("Distância medida: %d cm\n", ultimaDistanciaCM);
   }
 }
 
 int obterUltimaDistancia() {
   return ultimaDistanciaCM;
-  Serial.printf("Distância medida: %d cm\n", ultimaDistanciaCM);
 
 }

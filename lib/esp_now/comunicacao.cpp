@@ -83,7 +83,7 @@ void enviarTelemetria(int distancia) {
   PacketTelemetria telemetria;
   telemetria.distanciaCM = distancia;
 
-  uint8_t macBroadcast[] = {0x70, 0x4B, 0xCA, 0x91, 0x96, 0x3C};
+  uint8_t macBroadcast[] = {0xF4, 0x65, 0x0B, 0x56, 0x6E, 0xC0}; //F4:65:0B:56:6E:C0
   
   if (!esp_now_is_peer_exist(macBroadcast)) {
     esp_now_peer_info_t peerInfo = {};
