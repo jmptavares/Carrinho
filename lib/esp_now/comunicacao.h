@@ -6,6 +6,11 @@
 #include <WiFi.h>
 #include "define.h"
 
+#define JOY_CENTRO        127
+#define JOY_ALCANCE       127.0f
+#define JOY_ZONA_MORTA    0.01f
+#define JOY_EXPO          0.30f
+
 // valores de (x, y) no neutro
 const float X_CENTER = 127.0f;
 const float Y_CENTER = 127.0f;
