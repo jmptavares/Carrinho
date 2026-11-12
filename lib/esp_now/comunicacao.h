@@ -1,25 +1,10 @@
 #ifndef COMUNICACAO_H
 #define COMUNICACAO_H
 
-#include <Arduino.h>
-#include <esp_now.h>
-#include <WiFi.h>
-#include "define.h"
-
-#define JOY_CENTRO        127
-#define JOY_ALCANCE       127.0f
-#define JOY_ZONA_MORTA    0.01f
-#define JOY_EXPO          0.30f
-
-// valores de (x, y) no neutro
-const float X_CENTER = 127.0f;
-const float Y_CENTER = 127.0f;
-
-// (distância máxima aproximada do centro até as extremidades)
-const float X_RANGE = 127.0f;
-const float Y_RANGE = 127.0f;
-
-const float DEADZONE_RADIUS = 0.15f; // Zona morta em torno do centro
+#define JOY_CENTRO        127 // Valor correspondente ao centro dos eixos do joystick (127, 127)
+#define JOY_ALCANCE       127.0f // Alcance usado para normalizar os valores brutos do joystick (255 - 127 = 128, mas usamos 127 para manter simetria)
+#define JOY_ZONA_MORTA    0.01f // Raio da zona morta aplicada ao joystick
+#define JOY_EXPO          0.30f // Intensidade da curva exponencial aplicada aos comandos do joystick
 
 void inicializarESPNow();
 void verificarTimeoutConexao();

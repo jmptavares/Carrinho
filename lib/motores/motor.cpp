@@ -2,10 +2,10 @@
 #include "motor.h"
 #include "define.h"
 
-#define CANAL_PWM_DIR 0
-#define CANAL_PWM_ESQ 1
+#define CANAL_PWM_DIR 0 // Canal PWM para o motor direito
+#define CANAL_PWM_ESQ 1 // Canal PWM para o motor esquerdo
 
-static int alvoEsq = 0;
+static int alvoEsq = 0; 
 static int alvoDir = 0;
 
 static int atualEsq = 0;
@@ -13,6 +13,7 @@ static int atualDir = 0;
 
 static unsigned long ultimaAtualizacaoRampa = 0;
 
+// Inicializa os pinos e o PWM dos motores e deixa eles parados 
 void inicializarMotores() {
   pinMode(MOTOR_DIR_PIN1, OUTPUT);
   pinMode(MOTOR_DIR_PIN2, OUTPUT);
@@ -28,55 +29,56 @@ void inicializarMotores() {
   pararMotoresImediatamente();
 }
 
+// Aplica direção e PWM a um motor respeitando o limite de velocidade
 static void aplicarSaidaMotor(int pin1, int pin2, int canalPWM, int velocidade) {
   velocidade = constrain(velocidade, -MOTOR_MAX_SPEED_LIMIT, MOTOR_MAX_SPEED_LIMIT);
 
-  if (velocidade > 0) {
-    digitalWrite(pin1, HIGH);
-    digitalWrite(pin2, LOW);
-  } else if (velocidade < 0) {
+  if (velocidade > 0) { // Motor girando para frente
+    digitalWrite(pin1, HIGH); 
+    digitalWrite(pin2, LOW); 
+  } else if (velocidade < 0) { // Motor girando para trás
     digitalWrite(pin1, LOW);
     digitalWrite(pin2, HIGH);
-  } else {
+  } else { // Motor parado
     digitalWrite(pin1, LOW);
     digitalWrite(pin2, LOW);
   }
 
-  ledcWrite(canalPWM, abs(velocidade));
+  ledcWrite(canalPWM, abs(velocidade)); // Aplica o valor absoluto da velocidade ao PWM
 }
 
-void definirVelocidadeAlvo(int velEsq, int velDir) {
+void definirVelocidadeAlvo(int velEsq, int velDir) { // Define as velocidades alvo para os motores respeitando o limite máximo
   alvoEsq = constrain(velEsq, -MOTOR_MAX_SPEED_LIMIT, MOTOR_MAX_SPEED_LIMIT);
   alvoDir = constrain(velDir, -MOTOR_MAX_SPEED_LIMIT, MOTOR_MAX_SPEED_LIMIT);
 }
 
-void atualizarRampaMotores() {
+void atualizarRampaMotores() { // Aproxima gradualmente as velocidades atuais dos valores alvo
   unsigned long agora = millis();
   
-  if (agora - ultimaAtualizacaoRampa < MOTOR_RAMP_INTERVAL_MS) {
+  if (agora - ultimaAtualizacaoRampa < MOTOR_RAMP_INTERVAL_MS) { 
     return; 
   }
-  ultimaAtualizacaoRampa = agora;
+  ultimaAtualizacaoRampa = agora; 
 
 
-  if (atualEsq < alvoEsq) {
-    atualEsq = min(atualEsq + MOTOR_RAMP_STEP, alvoEsq);
+  if (atualEsq < alvoEsq) { 
+    atualEsq = min(atualEsq + MOTOR_RAMP_STEP, alvoEsq); // Se for menor que o desejado, aumenta a velocidade atual do motor esquerdo em relação à velocidade alvo aos poucos (respeitando o limite de variação por etapa)
   } else if (atualEsq > alvoEsq) {
-    atualEsq = max(atualEsq - MOTOR_RAMP_STEP, alvoEsq);
-  }
+    atualEsq = max(atualEsq - MOTOR_RAMP_STEP, alvoEsq); // Se for maior que o desejado, diminui aos poucos
 
   if (atualDir < alvoDir) {
-    atualDir = min(atualDir + MOTOR_RAMP_STEP, alvoDir);
+    atualDir = min(atualDir + MOTOR_RAMP_STEP, alvoDir); // Se for menor que o desejado, aumenta a velocidade atual do motor direito em relação à velocidade alvo aos poucos
   } else if (atualDir > alvoDir) {
-    atualDir = max(atualDir - MOTOR_RAMP_STEP, alvoDir);
+    atualDir = max(atualDir - MOTOR_RAMP_STEP, alvoDir); // Se for maior que o desejado, diminui aos poucos
   }
 
   
   aplicarSaidaMotor(MOTOR_ESQ_PIN1, MOTOR_ESQ_PIN2, CANAL_PWM_ESQ, atualEsq);
   aplicarSaidaMotor(MOTOR_DIR_PIN1, MOTOR_DIR_PIN2, CANAL_PWM_DIR, -atualDir);
 }
+}
 
-void pararMotoresImediatamente() {
+void pararMotoresImediatamente() { // Zera imediatamente as velocidades alvo e atuais dos motores
   alvoEsq = 0;
   alvoDir = 0;
   atualEsq = 0;
